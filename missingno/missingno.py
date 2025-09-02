@@ -189,7 +189,12 @@ def matrix(df,
     # Set up and rotate the column ticks.
     # The labels argument is set to None by default. If the user specifies it in the argument,
     # respect that specification. Otherwise display for <= 50 columns and do not display for > 50.
-    if labels or (labels is None and len(df.columns) <= 50):
+    # If a list of labels is provided in the labels argument, use those as renamed labels.
+    if type(labels) == list and len(labels) == len(list(df.columns)):
+        ha = 'left'
+        ax0.set_xticks(list(range(0, width)))
+        ax0.set_xticklabels(labels, rotation=45, ha=ha, fontsize=fontsize)
+    elif labels or (labels is None and len(df.columns) <= 50):
         ha = 'left'
         ax0.set_xticks(list(range(0, width)))
         ax0.set_xticklabels(list(df.columns), rotation=45, ha=ha, fontsize=fontsize)
